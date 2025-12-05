@@ -36,10 +36,15 @@ mlartifacts/
 *.pkl
 
 # Datasets
-data/
-*.csv
-*.tsv
-*.jsonl
+# Datasets
+data/ingested/
+data/raw/
+data/tmp/
+data/*.tsv
+data/*.jsonl
+data/*.parquet
+!data/sample_ads.csv
+
 
 # Logs
 logs/
