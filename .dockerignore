@@ -1,0 +1,30 @@
+# Python / venv
+.venv/
+venv/
+ENV/
+env/
+
+# Git
+.git
+.gitignore
+
+# ML & runtime artifacts
+mlruns/
+data/ingested/
+data/raw/
+data/tmp/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+*.pyc
+__pycache__/
+
+# Large local directories
+.DS_Store
+
+# Optional: If you don't want to ship model artifacts in the image,
+# uncomment the following line (but bind-mount or include the model later).
+# models/

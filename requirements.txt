@@ -12,3 +12,6 @@ python-dotenv>=1.0
 # ============= Phase 2 runtime deps ============
 pandas>=2.0
 pyarrow>=12.0   # used for parquet feature store
+
+fastapi
+uvicorn
