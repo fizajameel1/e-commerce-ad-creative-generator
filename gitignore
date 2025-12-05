@@ -56,12 +56,9 @@ temp/
 # ============================================================
 # IDE / OS FILES
 # ============================================================
-# VSCode settings
 .vscode/
 .code/
 *.code-workspace
-
-# JetBrains / PyCharm
 .idea/
 
 # macOS
@@ -99,7 +96,6 @@ logs/
 *.pem
 *.secret
 secrets.yaml
-k8s/*.yaml
 
 # ============================================================
 # MISC
