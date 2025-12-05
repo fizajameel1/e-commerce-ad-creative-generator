@@ -1,0 +1,23 @@
+# ================================
+# DEVELOPMENT DEPENDENCIES (PHASE 1)
+# ================================
+
+# Testing
+pytest>=7.0
+pytest-cov>=4.0
+
+# Code formatting / linting
+flake8>=6.0
+black>=24.0
+isort>=5.12
+mypy>=1.9
+
+# Type checking stubs
+types-requests
+types-PyYAML
+
+# Utilities
+python-dotenv>=1.0
+
+# (Runtime dependencies like FastAPI, MLflow, Airflow, Torch, Transformers
+# will be added in later phases)
