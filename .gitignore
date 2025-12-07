@@ -28,7 +28,7 @@ env/
 # PROJECT ARTIFACTS
 # ============================================================
 # Model artifacts
-models/
+
 mlruns/
 mlartifacts/
 *.onnx
