@@ -15,3 +15,9 @@ pyarrow>=12.0   # used for parquet feature store
 
 fastapi
 uvicorn
+pydantic
+pandas
+pyarrow
+scikit-learn
+httpx
+mlflow
