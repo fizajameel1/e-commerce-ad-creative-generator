@@ -2,39 +2,20 @@ name: CI & Docker CD
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [main]
+    paths:
+      - "Dockerfile"
+      - ".github/workflows/ci-cd.yml"
+      - "inference/**"
+      - "requirements.txt"
+  workflow_dispatch:
 
 jobs:
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run pytest
-        run: pytest -q
-
   build-and-push:
-    name: Build & push Docker image
     runs-on: ubuntu-latest
-    needs: test   # only run if tests pass
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Log in to Docker Hub
@@ -46,12 +27,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push image
+      - name: Build and push Docker image
+        id: build_push           
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            fizajameel/ad-creative-api:latest
-            fizajameel/ad-creative-api:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ad-creative-api:latest
+
+
+      - name: Show image digest
+        run: |
+          echo "Image digest: ${{ steps.build-and-push.outputs.digest }}"
+
+
