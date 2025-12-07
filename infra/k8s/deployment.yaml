@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-creative-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-creative-api
+  template:
+    metadata:
+      labels:
+        app: ad-creative-api
+    spec:
+      containers:
+        - name: ad-creative-api
+          image: ad-creative-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
