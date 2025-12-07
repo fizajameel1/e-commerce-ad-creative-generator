@@ -1,0 +1,42 @@
+{
+  "version": "template-v1",
+  "stats": {
+    "n_examples": 5,
+    "avg_title_len": 16.4,
+    "avg_desc_len": 66.0
+  },
+  "category_ctas": {
+    "clothing": [
+      "Buy today",
+      "Limited time offer",
+      "Grab yours"
+    ],
+    "electronics": [
+      "Limited time offer",
+      "Grab yours",
+      "Order now"
+    ],
+    "grocery": [
+      "Get it now",
+      "Shop now",
+      "Buy today"
+    ],
+    "sports": [
+      "Buy today",
+      "Limited time offer",
+      "Grab yours"
+    ],
+    "home": [
+      "Order now",
+      "Learn more",
+      "Get it now"
+    ]
+  },
+  "template_variants": [
+    "{title} \u2014 {short_desc} {cta}.",
+    "{short_desc} | {title}. {cta}.",
+    "{title}: {short_desc} \u2014 {cta}!",
+    "{short_desc} ({title}) \u2014 {cta}."
+  ],
+  "short_desc_max_words": 20
+}
