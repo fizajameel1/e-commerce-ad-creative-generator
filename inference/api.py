@@ -1,12 +1,26 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Response
 from pathlib import Path
 from inference.generator import load_model, generate_creative
 from inference.schemas import GenerateRequest, GenerateResponse
+import time
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+
 
 app = FastAPI(
     title="Ad Creative Generator API",
     description="Generate ad creatives using a template-based baseline model.",
     version="1.0.0",
+)
+REQUEST_COUNTER = Counter(
+    "adgen_requests_total",
+    "Total number of /generate requests",
+    ["status"],  # success / error
+)
+
+REQUEST_LATENCY = Histogram(
+    "adgen_request_latency_seconds",
+    "Latency of /generate requests in seconds",
+    buckets=[0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 5.0],
 )
 
 MODEL_PATH = Path("models/template_baseline.json")
@@ -47,18 +61,45 @@ async def health_check():
 async def generate_ads(request: GenerateRequest):
     """
     Generate 3 creative variations using the template model.
+    Also track request count and latency with Prometheus.
     """
-    ensure_model_loaded()  # <== guarantees _model is loaded or raises clear error
+    # make sure model is loaded (lazy load if needed)
+    try:
+        ensure_model_loaded()
+    except RuntimeError:
+        REQUEST_COUNTER.labels(status="error").inc()
+        raise
 
-    creatives = []
-    for i in range(3):  # return 3 variations
-        creative = generate_creative(
-            title=request.title,
-            description=request.description,
-            category=request.category,
-            model=_model,
-            variant_idx=i,  # deterministic variant choice
-        )
-        creatives.append(creative)
+    start = time.perf_counter()
+    status_label = "success"
 
-    return GenerateResponse(creatives=creatives)
+    try:
+        creatives = []
+        for i in range(3):
+            creative = generate_creative(
+                title=request.title,
+                description=request.description,
+                category=request.category,
+                model=_model,
+                variant_idx=i,
+            )
+            creatives.append(creative)
+        return GenerateResponse(creatives=creatives)
+    except Exception:
+        status_label = "error"
+        raise
+    finally:
+        duration = time.perf_counter() - start
+        REQUEST_COUNTER.labels(status=status_label).inc()
+        REQUEST_LATENCY.observe(duration)
+
+
+@app.get("/metrics")
+async def metrics():
+    """
+    Expose Prometheus metrics in the standard text format.
+    Prometheus will scrape this endpoint.
+    """
+    data = generate_latest()
+    return Response(content=data, media_type=CONTENT_TYPE_LATEST)
+
