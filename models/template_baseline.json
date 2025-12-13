@@ -12,9 +12,9 @@
       "Grab yours"
     ],
     "electronics": [
-      "Limited time offer",
-      "Grab yours",
-      "Order now"
+      "Get it now",
+      "Shop now",
+      "Buy today"
     ],
     "grocery": [
       "Get it now",
@@ -22,14 +22,14 @@
       "Buy today"
     ],
     "sports": [
-      "Buy today",
-      "Limited time offer",
-      "Grab yours"
-    ],
-    "home": [
       "Order now",
       "Learn more",
       "Get it now"
+    ],
+    "home": [
+      "Grab yours",
+      "Order now",
+      "Learn more"
     ]
   },
   "template_variants": [

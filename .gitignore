@@ -19,6 +19,7 @@ ENV/
 env/
 *.env
 *.bak
+airflow-venv/
 
 # Python egg metadata
 *.egg-info/
